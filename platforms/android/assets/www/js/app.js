@@ -16,8 +16,7 @@
 		takePicture();
 	});
 
-	function takePicture() {
-		alert("taking picture");
+	function takePicture() { 
 		navigator.camera.getPicture(onSuccess, onFail, {
 			quality : 100,
 			targetWidth : 400,
@@ -42,12 +41,13 @@
 	}
 
 	function onSuccess(imageData) {
-		alert('success');
 		var image = document.getElementById('image');
 		image.src = "data:image/jpeg;base64," + imageData; 
 		image.style.margin = "10px";
 		image.style.display = "block";
 	}
+
+		
 
 	function onFail(message) {
 		alert(message);
