@@ -1,8 +1,10 @@
 // We use an "Immediate Function" to initialize the application to avoid leaving anything behind in the global scope
 (function () {
 
-	/* ---------------------------------- Local Variables ---------------------------------- */
-	var service = new EmployeeService();
+
+	
+		/* ---------------------------------- Local Variables ---------------------------------- */
+		var service = new EmployeeService();
 	service.initialize().done(function () {
 		console.log("Service initialized");
 	});
@@ -16,38 +18,33 @@
 		takePicture();
 	});
 
-	function takePicture() { 
+	function takePicture() {
+		errorFactor = $('#errorFactor').val();
 		navigator.camera.getPicture(onSuccess, onFail, {
 			quality : 100,
-			targetWidth : 400,
-			targetHeight : 400,
+			targetWidth : 300,
+			targetHeight : 300,
 			destinationType : Camera.DestinationType.DATA_URL,
 			correctOrientation : true
 		});
 
 	}
 
-	/* ---------------------------------- Local Functions ---------------------------------- */
-	function findByName() {
-		service.findByName($('.search-key').val()).done(function (employees) {
-			var l = employees.length;
-			var e;
-			$('.employee-list').empty();
-			for (var i = 0; i < l; i++) {
-				e = employees[i];
-				$('.employee-list').append('<li><a href="#employees/' + e.id + '">' + e.firstName + ' ' + e.lastName + '</a></li>');
-			}
-		});
-	}
-
 	function onSuccess(imageData) {
-		var image = document.getElementById('image');
-		image.src = "data:image/jpeg;base64," + imageData; 
-		image.style.margin = "10px";
-		image.style.display = "block";
-	}
+		var imageObj = new Image();
+		imageObj.src = "data:image/jpeg;base64," + imageData;
+		imageObj.style.margin = "10px";
+		imageObj.style.display = "block";
 
-		
+		var canvas = document.getElementById('image');
+		var context = canvas.getContext('2d');
+		var x = 1;
+		var y = 1;
+
+		context.drawImage(imageObj, x, y);
+
+		getYellowQR(imageObj);
+	}
 
 	function onFail(message) {
 		alert(message);
